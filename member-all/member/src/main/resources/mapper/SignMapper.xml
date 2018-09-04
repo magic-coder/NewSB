@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qmx.member.mapper.SignMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qmx.member.model.Sign">
+        <result column="id" property="id"/>
+        <result column="enable_" property="enable"/>
+        <result column="remark" property="remark"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+
+        <result column="member_id" property="memberId"/>
+        <result column="time" property="time"/>
+        <result column="integral" property="integral"/>
+        <result column="continuous_sign" property="continuous_sign"/>
+
+    </resultMap>
+
+    <!--<select id="selectIdPage" resultType="java.lang.Long">-->
+    <!--select id from exchange-->
+    <!--<where>-->
+    <!--<if test="cm.exchangeProductType != null">-->
+    <!--and exchange_product_type = #{cm.exchangeProductType}-->
+    <!--</if>-->
+    <!--<if test="cm.productName != null and cm.productName != ''">-->
+    <!--and product_name = #{cm.productName}-->
+    <!--</if>-->
+    <!--<if test="cm.deliverType != null">-->
+    <!--and deliver_type = #{cm.deliverType}-->
+    <!--</if>-->
+    <!--and enable_ = 1-->
+    <!--</where>-->
+    <!--ORDER BY create_time DESC-->
+    <!--</select>-->
+
+    <select id="findByMemberId" resultMap="BaseResultMap">
+      SELECT * FROM sign WHERE
+      member_id = #{id}
+      AND to_days(now()) - to_days(time) = 0
+    </select>
+
+    <select id="isContinuousSign" resultMap="BaseResultMap">
+      SELECT * FROM sign WHERE
+      member_id = #{id}
+      AND to_days(now()) - to_days(time) = 1
+    </select>
+
+</mapper>

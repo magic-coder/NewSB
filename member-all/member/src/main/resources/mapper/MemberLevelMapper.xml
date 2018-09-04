@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qmx.member.mapper.MemberLevelMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qmx.member.model.MemberLevel">
+        <result column="id" property="id"/>
+        <result column="enable_" property="enable"/>
+        <result column="remark" property="remark"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="member_id" property="memberId"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="group_supplier_id" property="groupSupplierId"/>
+        <result column="name" property="name"/>
+        <result column="recharge_point" property="rechargePoint"/>
+        <result column="consumption_discount" property="consumptionDiscount"/>
+        <result column="consumption_point" property="consumptionPoint"/>
+        <result column="level_lock" property="levelLock"/>
+        <result column="integral" property="integral"/>
+        <result column="upgrade_id" property="upgradeId"/>
+
+    </resultMap>
+
+    <select id="selectIdPage" resultType="java.lang.Long">
+        select id from member_level
+        <where>
+            <if test="cm.id != null and cm.id != ''">
+                and id = #{cm.id}
+            </if>
+            <if test="cm.name != null and cm.name != ''">
+                and name = #{cm.name}
+            </if>
+            <if test="cm.levelLock != null">
+                and level_lock = #{cm.levelLock}
+            </if>
+            and enable_ = 1
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="findByName" resultMap="BaseResultMap">
+        SELECT * FROM member_level
+        WHERE name = #{name} AND enable_ = 1
+    </select>
+</mapper>

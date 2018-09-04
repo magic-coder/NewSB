@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qmx.member.mapper.DiscountMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qmx.member.model.Discount">
+        <result column="id" property="id"/>
+        <result column="enable_" property="enable"/>
+        <result column="remark" property="remark"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="member_id" property="memberId"/>
+        <result column="supplier_id" property="supplierId"/>
+        <result column="group_supplier_id" property="groupSupplierId"/>
+
+        <result column="level_id" property="levelId"/>
+        <result column="level_name" property="levelName"/>
+        <result column="associated" property="associated"/>
+        <result column="associated_name" property="associatedName"/>
+        <result column="rate" property="rate"/>
+        <result column="superposition" property="superposition"/>
+
+    </resultMap>
+
+    <select id="selectIdPage" resultType="java.lang.Long">
+        select id from discount
+        <where>
+            <if test="cm.levelName != null and cm.levelName != ''">
+                and level_name = #{cm.levelName}
+            </if>
+            <if test="cm.associatedName != null and cm.associatedName != ''">
+                and associated_name = #{cm.associatedName}
+            </if>
+            <if test="cm.superposition != null">
+                and superposition = #{cm.superposition}
+            </if>
+            and enable_ = 1
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="findByLevelId"  resultMap="BaseResultMap">
+        select * from discount
+        where level_id = #{levelId}
+        and enable_ = 1
+    </select>
+
+    <update id="delByLevenId" >
+        UPDATE discount SET enable_ = 0 WHERE level_id = #{id}
+    </update>
+</mapper>
